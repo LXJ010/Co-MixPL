@@ -271,12 +271,19 @@ def main(args):
         model_without_ddp.ema.register()
 
     if args.eval:
-        print("Note: This code is intended solely for evaluating the performance of the student model.")
+        print("Evaluating Student model ...")
         os.environ['EVAL_FLAG'] = 'TRUE'
         test_stats, coco_evaluator = evaluate(model, criterion, postprocessors,
                                               data_loader_val, base_ds, device, args.output_dir, wo_class_error=wo_class_error, args=args)
+        print("Evaluating Teacher model ...")
+        model.ema.apply_shadow()
+        _, coco_evaluator_teacher = evaluate(
+            model, criterion, postprocessors, data_loader_val, base_ds, device, args.output_dir,
+            wo_class_error=wo_class_error, args=args)
+
         if args.output_dir:
             utils.save_on_master(coco_evaluator.coco_eval["bbox"].eval, output_dir / "eval.pth")
+            utils.save_on_master(coco_evaluator_teacher.coco_eval["bbox"].eval, output_dir / "eval_teacher.pth")
 
         log_stats = {**{f'test_{k}': v for k, v in test_stats.items()} }
         if args.output_dir and utils.is_main_process():
@@ -325,9 +332,8 @@ def main(args):
         model, criterion, postprocessors, data_loader_val, base_ds, device, args.output_dir,
         wo_class_error=wo_class_error, args=args, logger=(logger if args.save_log else None)
         )
-        map_regular = test_stats['coco_eval_bbox'][0]
-        with open("teacher.txt", "a") as f:
-            f.write(str(test_stats['coco_eval_bbox']) + '\n')
+        with open("TeacherResults.txt", "a") as f:
+            f.write(f"Epoch {epoch} results: {test_stats['coco_eval_bbox']}" + '\n')
         model.ema.restore()
 
         # eval

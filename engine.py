@@ -285,9 +285,9 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
             if _cnt % 15 == 0:
                 print("BREAK!" * 5)
                 break
-    with open("semi_record.txt", "a") as f:
+    with open("SemiRecord.txt", "a") as f:
         f.write(
-            f"mixupnum :{mixupnum}, moasicnum: {moasicnum}, fastercnn : {1.0 * l / t}, {[(k, v.item()) for k, v in print_logs.items()]}" + '\n')
+            f"Epoch {epoch} Info: PseudoMixupCount = {mixupnum}, PseudoMosaicCount = {moasicnum}, Loss_FasterR-CNN = {1.0 * l / t}, Add_Loss: {[(k, v.item()) for k, v in print_logs.items()]}" + '\n')
     if getattr(criterion, 'loss_weight_decay', False):
         criterion.loss_weight_decay(epoch=epoch)
     if getattr(criterion, 'tuning_matching', False):
