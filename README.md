@@ -4,11 +4,23 @@ This repository is an official implementation of the paper [Co-MixPL: An Optimiz
 
 Authors: Xujie Long, Jing Teng, Zhiwei Zhu, Shaobo Zhao, Mengyang Pu, Ruifeng Shi, You Lv, Jonathan Li, Guoqing Jing.
 
+![method](figs/framework.png "model arch")
+
+
+
+## Erratum
+
+In the original paper, Fig. 3 was intended to illustrate the workflow of MixPL described in *Section 3.2*. However, it was mistakenly referenced in *Section 3.1*. Please disregard this incorrect reference as shown in the figure below.
+
+![method](figs/erratum.png "erratum")
+
 
 
 ## **Installation**
 
-We use the same environment as DINO. For detailed installation instructions, please refer to https://github.com/search?tab=readme-ov-file#installation. In addition, our implementation of the auxiliary head Faster R-CNN is adapted from `torchvision (0.15.2)`, so the version of torchvision in the environment should be **no lower than 0.15.2**.
+We use the same environment as DINO. For detailed installation instructions, please refer to https://github.com/IDEA-Research/DINO/tree/main?tab=readme-ov-file#installation.
+
+In addition, our implementation of the auxiliary head Faster R-CNN is adapted from `torchvision (0.15.2)`, so the version of torchvision in the environment should be **no lower than 0.15.2**.
 
 
 
@@ -68,7 +80,7 @@ This project is released under the [Apache 2.0 license](https://github.com/LXJ01
 
 ## Citing Co-MixPL
 
-If you find Co-MixPL useful in your research, please consider citing:
+If you find our work helpful for your research, please consider citing:
 
 ```bibtex
 @article{long2026co,
